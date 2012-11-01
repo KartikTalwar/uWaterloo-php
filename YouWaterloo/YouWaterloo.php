@@ -31,6 +31,62 @@ class YouWaterloo
         return $fullQueryUrl;
     }
 
+
+    public function makeRequest($url)
+    {
+        if( in_array('curl', get_loaded_extensions()) && function_exists('curl_init') )
+        {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENT);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
+            $data = curl_exec($ch);
+            curl_close($ch);
+
+            return $data;
+        }
+        else
+        {
+            $data = file_get_contents($url);
+            return $data;
+        }
+    }
+
+
+    public static function parseJSON($json)
+    {
+        return json_decode($json);
+    }
+
+
+    public static function objectToArray($object)
+    {
+        if( is_object($object) )
+        {
+            $object = get_object_vars($object);
+        }
+
+        foreach($object as $key => $value)
+        {
+            if( is_array($value) || is_object($value) )
+            {
+                $value = self::objectToArray($value);
+            }
+
+            $result[$key] = $value;
+        }
+
+        return $result;
+    }
+
+
 }
 
 
