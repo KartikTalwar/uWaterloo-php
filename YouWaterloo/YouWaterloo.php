@@ -31,6 +31,22 @@ class YouWaterloo
     }
 
 
+    public function getTerms()
+    {
+        $service  = 'TermsList';
+        $response = $this->makeRequest($service);
+
+        return $this->returnData($response);
+    }
+
+
+    public function getCurrentTerm()
+    {
+        $terms = $this->getTerms();
+        return $terms['Current'];
+    }
+
+
     public function getMeta($json)
     {
         $meta = $json->response->meta;
