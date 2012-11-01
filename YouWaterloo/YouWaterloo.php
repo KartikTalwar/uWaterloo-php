@@ -61,6 +61,10 @@ class YouWaterloo
         {
             return $data;
         }
+        else
+        {
+            return $meta['Message'];
+        }
     }
 
 
