@@ -22,9 +22,17 @@ class YouWaterloo
     }
 
 
-    public function getMeta($response)
+    public function getWeather()
     {
-        $json = self::parseJSON($response);
+        $service  = 'Weather';
+        $response = $this->makeRequest($service);
+
+        return $this->returnData($response);
+    }
+
+
+    public function getMeta($json)
+    {
         $meta = $json->response->meta;
         $resp = self::objectToArray($meta);
 
@@ -32,9 +40,8 @@ class YouWaterloo
     }
 
 
-    public function getData($response)
+    public function getData($json)
     {
-        $json = self::parseJSON($response);
         $data = $json->response->data;
         $resp = self::objectToArray($data);
 
@@ -42,18 +49,37 @@ class YouWaterloo
     }
 
 
-    public function buildQuery($params)
+    public function returnData($response)
     {
-        $params['key'] = $this->apiKey;
-        $queryParams   = http_build_query($params);
-        $fullQueryUrl  = $this->reqUrl . $queryParams;
+        $json = self::parseJSON($response);
+        $meta = $this->getMeta($json);
+        $data = $this->getData($json);
+
+        $status = $meta['Status'];
+
+        if($status == 200)
+        {
+            return $data;
+        }
+    }
+
+
+    public function buildQuery($service, $params)
+    {
+        $params['key']     = $this->apiKey;
+        $params['service'] = $service;
+
+        $queryParams  = http_build_query($params);
+        $fullQueryUrl = $this->reqUrl . $queryParams;
 
         return $fullQueryUrl;
     }
 
 
-    public function makeRequest($url)
+    public function makeRequest($service, $params = array())
     {
+        $url = $this->buildQuery($service, $params);
+
         if( in_array('curl', get_loaded_extensions()) && function_exists('curl_init') )
         {
             $ch = curl_init();
