@@ -72,6 +72,7 @@ class YouWaterloo
     {
         $params['key']     = $this->apiKey;
         $params['service'] = $service;
+        $params['output']  = $this->output;
 
         $queryParams  = http_build_query($params);
         $fullQueryUrl = $this->reqUrl . $queryParams;
