@@ -22,7 +22,27 @@ class YouWaterloo
     }
 
 
-    public function _buildQuery($params)
+    public function getMeta($response)
+    {
+        $json = self::parseJSON($response);
+        $meta = $json->response->meta;
+        $resp = self::objectToArray($meta);
+
+        return $resp;
+    }
+
+
+    public function getData($response)
+    {
+        $json = self::parseJSON($response);
+        $data = $json->response->data;
+        $resp = self::objectToArray($data);
+
+        return $resp;
+    }
+
+
+    public function buildQuery($params)
     {
         $params['key'] = $this->apiKey;
         $queryParams   = http_build_query($params);
