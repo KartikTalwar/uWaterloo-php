@@ -5,7 +5,6 @@ class YouWaterloo
 {
 
     const USER_AGENT  = 'uWaterloo-PHP';
-    const REQ_LIMIT   = 5000;
     const API_VERSION = 'v1';
     const API_URL     = 'http://api.uwaterloo.ca/public/';
 
@@ -71,7 +70,8 @@ class YouWaterloo
         $meta = $this->getMeta($json);
         $data = $this->getData($json);
 
-        $status = $meta['Status'];
+        $status  = $meta['Status'];
+        $message = $meta['Message'];
 
         if($status == 200)
         {
@@ -79,7 +79,7 @@ class YouWaterloo
         }
         else
         {
-            return $meta['Message'];
+            return $message;
         }
     }
 
@@ -135,7 +135,7 @@ class YouWaterloo
 
     public static function objectToArray($object)
     {
-        if( is_object($object) )
+        if(is_object($object))
         {
             $object = get_object_vars($object);
         }
