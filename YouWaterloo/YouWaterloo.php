@@ -48,6 +48,29 @@ class YouWaterloo
     }
 
 
+    public function getHolidays()
+    {
+        $service  = 'Holidays';
+        $response = $this->makeRequest($service);
+
+        return $this->returnData($response);
+    }
+
+
+    public function getCurrentHolidays()
+    {
+        $holidays = $this->getHolidays();
+
+        foreach($holidays['result'] as $year)
+        {
+            if($year['Year'] == date('Y'))
+            {
+                return $year;
+            }
+        }
+    }
+
+
     public function getCurrentTerm()
     {
         $terms = $this->getTerms();
