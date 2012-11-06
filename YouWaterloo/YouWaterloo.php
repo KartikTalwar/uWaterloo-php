@@ -65,7 +65,7 @@ class YouWaterloo
         {
             if($year['Year'] == date('Y'))
             {
-                return $year;
+                return $year['Holidays']['result'];
             }
         }
     }
