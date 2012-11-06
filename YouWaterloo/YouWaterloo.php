@@ -71,6 +71,16 @@ class YouWaterloo
     }
 
 
+    public function getCalendarEvents()
+    {
+        $service  = 'CalendarEvents';
+        $response = $this->makeRequest($service);
+        $returned = $this->returnData($response);
+
+        return $returned['result'];
+    }
+
+
     public function getCurrentTerm()
     {
         $terms = $this->getTerms();
