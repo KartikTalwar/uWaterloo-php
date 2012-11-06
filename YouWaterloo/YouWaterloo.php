@@ -39,6 +39,15 @@ class YouWaterloo
     }
 
 
+    public function getEvents()
+    {
+        $service  = 'Events';
+        $response = $this->makeRequest($service);
+
+        return $this->returnData($response);
+    }
+
+
     public function getCurrentTerm()
     {
         $terms = $this->getTerms();
