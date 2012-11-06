@@ -88,6 +88,16 @@ class YouWaterloo
     }
 
 
+    public function getFaculties()
+    {
+        $service  = 'FacultiesList';
+        $response = $this->makeRequest($service);
+        $returned = $this->returnData($response);
+
+        return $returned['result'];
+    }
+
+
     public function getMeta($json)
     {
         $meta = $json->response->meta;
