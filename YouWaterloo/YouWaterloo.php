@@ -108,6 +108,16 @@ class YouWaterloo
     }
 
 
+    public function getFoodServices()
+    {
+        $service  = 'FoodServices';
+        $response = $this->makeRequest($service);
+        $returned = $this->returnData($response);
+
+        return $returned['result'];
+    }
+
+
     public function getMeta($json)
     {
         $meta = $json->response->meta;
